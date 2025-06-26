@@ -3,9 +3,9 @@ package pages;
 import org.openqa.selenium.By;
 
 public class LoginPage extends BasePage {
-    private By login = By.xpath("//*[@id='formLogin:j_username']");
-    private By password = By.xpath("//*[@id='formLogin:j_password']");
-    private By sugnInButton = By.xpath("//*[@id='formLogin:loginButton']");
+    private By login = By.id("formLogin:j_username");
+    private By password = By.id("formLogin:j_password");
+    private By sugnInButton = By.id("formLogin:loginButton");
 
     public LoginPage() {
         super();

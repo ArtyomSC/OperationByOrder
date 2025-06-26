@@ -1,17 +1,23 @@
 import driver.Driver;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.AfterMethod;
+import pages.HomePage;
 import pages.LoginPage;
+
+import static enums.LoginData.*;
 
 public class BaseTest {
     protected LoginPage loginPage;
+    protected HomePage homePage;
 
-    @BeforeEach
-    public void setUp() {
+    @BeforeMethod
+    public void login() {
         loginPage = new LoginPage();
+        this.homePage = loginPage.loginIntoHomePage(BNBSKASS8.getUsername(), BNBSKASS8.getPassword());
     }
 
-    @AfterEach
+    @AfterMethod
     public void quit() {
         Driver.quitDriver();
     }
