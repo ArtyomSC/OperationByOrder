@@ -14,7 +14,7 @@ public class BaseTest {
     @BeforeMethod
     public void login() {
         loginPage = new LoginPage();
-        this.homePage = loginPage.loginIntoHomePage(BNBSKASS8.getUsername(), BNBSKASS8.getPassword());
+        this.homePage = loginPage.loginIntoHomePage(BNBSKASS8);
     }
 
     @AfterMethod

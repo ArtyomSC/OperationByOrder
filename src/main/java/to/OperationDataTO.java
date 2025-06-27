@@ -1,19 +1,21 @@
 package to;
 
-public class OperationDataTO {
-    private String amount;
-    private String currencyKind;
+import enums.CurrencyKind;
 
-    public OperationDataTO(String amount, String currencyKind) {
+public class OperationDataTO {
+    private int amount;
+    private CurrencyKind currencyKind;
+
+    public OperationDataTO(int amount, CurrencyKind currencyKind) {
         this.amount = amount;
         this.currencyKind = currencyKind;
     }
 
-    public String getAmount() {
+    public int getAmount() {
         return amount;
     }
 
     public String getCurrencyKind() {
-        return currencyKind;
+        return currencyKind.getCurrencyKind();
     }
 }

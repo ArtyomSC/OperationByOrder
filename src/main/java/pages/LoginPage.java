@@ -1,5 +1,6 @@
 package pages;
 
+import enums.LoginData;
 import org.openqa.selenium.By;
 
 public class LoginPage extends BasePage {
@@ -25,9 +26,9 @@ public class LoginPage extends BasePage {
         return new HomePage();
     }
 
-    public HomePage loginIntoHomePage(String username, String pass) {
-        setLogin(username);
-        setPassword(pass);
+    public HomePage loginIntoHomePage(LoginData loginData) {
+        setLogin(loginData.getUsername());
+        setPassword(loginData.getPassword());
         return clickSignIn();
     }
 }
