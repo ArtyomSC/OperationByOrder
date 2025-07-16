@@ -7,12 +7,11 @@ import to.OperationDataTO;
 import static enums.CurrencyKind.*;
 
 public class OperationByOrderProcessData {
-    OperationDataFactory operationDataFactory;
+    OperationDataFactory operationDataFactory = new OperationDataFactory();
     OperationDataTO operationDataTO;
 
     @DataProvider(name = "cashValuablesReceptionByOrderProcessData")
     public Object[][] cashValuablesReceptionByOrderProcessData() {
-        operationDataFactory = new OperationDataFactory();
         operationDataTO = operationDataFactory.createOperationData(10, BYN);
         return new Object[][]{
                 {operationDataTO}
@@ -21,7 +20,6 @@ public class OperationByOrderProcessData {
 
     @DataProvider(name = "issuanceValuesByOrderProcessData")
     public Object[][] issuanceValuesByOrderProcessData() {
-        operationDataFactory = new OperationDataFactory();
         operationDataTO = operationDataFactory.createOperationData(5, BYN);
         return new Object[][]{
                 {operationDataTO}

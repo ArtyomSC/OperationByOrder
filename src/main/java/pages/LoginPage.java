@@ -25,9 +25,9 @@ public class LoginPage extends BasePage {
         driver.findElement(sugnInButton).click();
     }
 
-    public HomePage loginIntoHomePage(String login, String password) {
-        setLogin(login);
-        setPassword(password);
+    public HomePage loginIntoHomePage(LoginData loginData) {
+        setLogin(loginData.getUsername());
+        setPassword(loginData.getPassword());
         clickSignIn();
         return new HomePage();
     }

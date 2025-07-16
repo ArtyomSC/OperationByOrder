@@ -1,5 +1,7 @@
 package pages;
 
+import enums.BusinessProcessName;
+import enums.Message;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -38,13 +40,13 @@ public class HomePage extends BasePage {
         return driver.findElement(messageContainer).getText();
     }
 
-    public void openBusinessProcess(String businessProcessName) {
+    public void openBusinessProcess(BusinessProcessName businessProcessName) {
         clickWelcomeButton();
-        findBusinessProcess(businessProcessName);
-        clickBusinessProcessName(businessProcessName);
+        findBusinessProcess(businessProcessName.getBusinessProcessName());
+        clickBusinessProcessName(businessProcessName.getBusinessProcessName());
     }
 
-    public void checkMessage(String message) {
-        Assertions.assertEquals(message, getMessage());
+    public void checkMessage(Message message) {
+        Assertions.assertEquals(message.getMessage(), getMessage());
     }
 }

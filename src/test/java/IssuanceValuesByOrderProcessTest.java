@@ -11,9 +11,9 @@ public class IssuanceValuesByOrderProcessTest extends BaseTest {
 
     @Test(dataProvider = "issuanceValuesByOrderProcessData", dataProviderClass = OperationByOrderProcessData.class)
     public void testIssuanceValuesByOrderProcess(OperationDataTO operationDataTO) {
-        homePage.openBusinessProcess(ISSUANCE_VALUES_BY_ORDER.getBusinessProcessName());
+        homePage.openBusinessProcess(ISSUANCE_VALUES_BY_ORDER);
         issuanceValuesByOrderPage
                 .runIssuanceValuesByOrderProcess(operationDataTO)
-                .checkMessage(OPERATION_COMPLETE.getMessage());
+                .checkMessage(OPERATION_COMPLETE);
     }
 }

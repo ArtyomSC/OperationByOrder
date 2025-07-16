@@ -11,9 +11,9 @@ public class CashValuablesReceptionByOrderProcessTest extends BaseTest {
 
     @Test(dataProvider = "cashValuablesReceptionByOrderProcessData", dataProviderClass = OperationByOrderProcessData.class)
     public void testCashValuablesReceptionByOrderProcess(OperationDataTO operationDataTO) {
-        homePage.openBusinessProcess(CASH_VALUABLES_RECEPTION_BY_ORDER.getBusinessProcessName());
+        homePage.openBusinessProcess(CASH_VALUABLES_RECEPTION_BY_ORDER);
         cashValuablesReceptionByOrderPage
                 .runCashValuablesReceptionByOrderProcess(operationDataTO)
-                .checkMessage(OPERATION_COMPLETE.getMessage());
+                .checkMessage(OPERATION_COMPLETE);
     }
 }
