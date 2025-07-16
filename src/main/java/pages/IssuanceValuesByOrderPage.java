@@ -3,13 +3,12 @@ package pages;
 import org.openqa.selenium.By;
 import to.OperationDataTO;
 
-public class CashValuablesReceptionByOrderPage extends BasePage {
+public class IssuanceValuesByOrderPage extends BasePage {
     private By currencyKindLabel = By.id("main-content-form:kind_label");
     private By amountByDocument = By.id("main-content-form:amount_input");
-    private By receivedSumInput = By.id("main-content-form:input-table:0:received_input");
     private By proceedButton = By.name("main-content-form:confirm");
 
-    public CashValuablesReceptionByOrderPage() {
+    public IssuanceValuesByOrderPage() {
         super();
     }
 
@@ -24,20 +23,15 @@ public class CashValuablesReceptionByOrderPage extends BasePage {
         driver.findElement(amountByDocument).sendKeys(String.valueOf(amount));
     }
 
-    public void setReceivedAmount(int amount) {
-        driver.findElement(receivedSumInput).sendKeys(String.valueOf(amount));
-    }
-
     public void clickProceedButton() {
         driver.findElement(proceedButton).click();
         ajaxWait();
     }
 
-    public HomePage runCashValuablesReceptionByOrderProcess(OperationDataTO operationDataTO) {
+    public HomePage runIssuanceValuesByOrderProcess(OperationDataTO operationDataTO) {
         setCurrencyKind(operationDataTO.getCurrencyKind());
         setAmountByDocument(operationDataTO.getAmount());
         clickProceedButton();
-        setReceivedAmount(operationDataTO.getAmount());
         clickProceedButton();
         return new HomePage();
     }

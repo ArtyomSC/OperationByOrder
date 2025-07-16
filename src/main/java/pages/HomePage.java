@@ -1,11 +1,8 @@
 package pages;
 
-import enums.BusinessProcessName;
-import enums.Message;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
 
 import java.time.Duration;
 
@@ -14,8 +11,7 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElem
 public class HomePage extends BasePage {
     private By welcomeButton = By.id("popup-confirm-welcome-button");
     private By menuTreeFilter = By.id("left-menu-form:tabView:treeFilterInput");
-    private By businessProcessName = By.xpath("//*[@id='left-menu-form:tabView:left-menu-main-tree:0_0_0']/span/span[3]/span");
-    private By messageContainer = By.xpath("//*[@id='main-content-form:messages_container']//div[2]/span");
+    private By messageContainer = By.className("ui-growl-title");
     private WebDriverWait wait;
 
     public HomePage() {
@@ -32,23 +28,23 @@ public class HomePage extends BasePage {
         ajaxWait();
     }
 
-    public CashValuablesReceptionByOrderPage clickBusinessProcessName() {
+    public void clickBusinessProcessName(String businessProcessName) {
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        wait.until(visibilityOfElementLocated(businessProcessName)).click();
-        return new CashValuablesReceptionByOrderPage();
+        wait.until(visibilityOfElementLocated(By.xpath(String.format("//span[contains(text(),'%s')]", businessProcessName)))).click();
     }
 
     public String getMessage() {
+        ajaxWait();
         return driver.findElement(messageContainer).getText();
     }
 
-    public CashValuablesReceptionByOrderPage openBusinessProcess(BusinessProcessName businessProcessName) {
+    public void openBusinessProcess(String businessProcessName) {
         clickWelcomeButton();
-        findBusinessProcess(businessProcessName.getBusinessProcessName());
-        return clickBusinessProcessName();
+        findBusinessProcess(businessProcessName);
+        clickBusinessProcessName(businessProcessName);
     }
 
-    public void checkMessage(Message message, String expMessage) {
-        Assertions.assertEquals(message.getMessage(), expMessage);
+    public void checkMessage(String message) {
+        Assertions.assertEquals(message, getMessage());
     }
 }

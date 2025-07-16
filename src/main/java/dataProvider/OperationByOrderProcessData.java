@@ -4,12 +4,9 @@ import factory.OperationDataFactory;
 import org.testng.annotations.DataProvider;
 import to.OperationDataTO;
 
-import static enums.BusinessProcessName.CASH_VALUABLES_RECEPTION_BY_ORDER;
 import static enums.CurrencyKind.*;
-import static enums.Message.OPERATION_COMPLETE;
 
-
-public class CashValuablesReceptionByOrderProcessData {
+public class OperationByOrderProcessData {
     OperationDataFactory operationDataFactory;
     OperationDataTO operationDataTO;
 
@@ -18,10 +15,16 @@ public class CashValuablesReceptionByOrderProcessData {
         operationDataFactory = new OperationDataFactory();
         operationDataTO = operationDataFactory.createOperationData(10, BYN);
         return new Object[][]{
-                {
-                        OPERATION_COMPLETE,
-                        CASH_VALUABLES_RECEPTION_BY_ORDER,
-                        operationDataTO}
+                {operationDataTO}
+        };
+    }
+
+    @DataProvider(name = "issuanceValuesByOrderProcessData")
+    public Object[][] issuanceValuesByOrderProcessData() {
+        operationDataFactory = new OperationDataFactory();
+        operationDataTO = operationDataFactory.createOperationData(5, BYN);
+        return new Object[][]{
+                {operationDataTO}
         };
     }
 }

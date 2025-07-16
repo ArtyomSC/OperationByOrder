@@ -21,14 +21,14 @@ public class LoginPage extends BasePage {
         driver.findElement(password).sendKeys(pass);
     }
 
-    public HomePage clickSignIn() {
+    public void clickSignIn() {
         driver.findElement(sugnInButton).click();
-        return new HomePage();
     }
 
     public HomePage loginIntoHomePage(LoginData loginData) {
         setLogin(loginData.getUsername());
         setPassword(loginData.getPassword());
-        return clickSignIn();
+        clickSignIn();
+        return new HomePage();
     }
 }

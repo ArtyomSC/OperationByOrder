@@ -1,18 +1,19 @@
-import dataProvider.CashValuablesReceptionByOrderProcessData;
-import enums.BusinessProcessName;
-import enums.Message;
+import dataProvider.OperationByOrderProcessData;
 import org.testng.annotations.Test;
+import pages.CashValuablesReceptionByOrderPage;
 import to.OperationDataTO;
 
-public class CashValuablesReceptionByOrderProcessTest extends BaseTest {
-    private String expectedMessage;
+import static enums.BusinessProcessName.CASH_VALUABLES_RECEPTION_BY_ORDER;
+import static enums.Message.OPERATION_COMPLETE;
 
-    @Test(dataProvider = "cashValuablesReceptionByOrderProcessData", dataProviderClass = CashValuablesReceptionByOrderProcessData.class)
-    public void testCashValuablesReceptionByOrderProcess(Message message, BusinessProcessName businessProcessName, OperationDataTO operationDataTO) {
-        expectedMessage = homePage
-                .openBusinessProcess(businessProcessName)
+public class CashValuablesReceptionByOrderProcessTest extends BaseTest {
+    private CashValuablesReceptionByOrderPage cashValuablesReceptionByOrderPage = new CashValuablesReceptionByOrderPage();
+
+    @Test(dataProvider = "cashValuablesReceptionByOrderProcessData", dataProviderClass = OperationByOrderProcessData.class)
+    public void testCashValuablesReceptionByOrderProcess(OperationDataTO operationDataTO) {
+        homePage.openBusinessProcess(CASH_VALUABLES_RECEPTION_BY_ORDER.getBusinessProcessName());
+        cashValuablesReceptionByOrderPage
                 .runCashValuablesReceptionByOrderProcess(operationDataTO)
-                .getMessage();
-        homePage.checkMessage(message, expectedMessage);
+                .checkMessage(OPERATION_COMPLETE.getMessage());
     }
 }
