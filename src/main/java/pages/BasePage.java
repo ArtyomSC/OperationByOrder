@@ -7,6 +7,7 @@ import org.openqa.selenium.WebDriver;
 public class BasePage {
     protected WebDriver driver;
     private By ajaxStatus = By.xpath("//*[@id='ajaxStatusPanel_start' and @style='display: none;']");
+    private By changeFocus = By.id("main-content-form:toolbar");
 
     public BasePage() {
         this.driver = Driver.getDriver();
@@ -18,5 +19,8 @@ public class BasePage {
 
     public void ajaxWait() {
         driver.findElement(ajaxStatus);
+    }
+    public void changeFocus(){
+        driver.findElement(changeFocus).click();
     }
 }

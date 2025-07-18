@@ -15,7 +15,10 @@ public class OperationDataTO {
         return amount;
     }
 
-    public String getCurrencyKind() {
-        return currencyKind.getCurrencyKind();
+    public String getCurrencyKindName() {
+        return currencyKind.getCurrencyKindName();
+    }
+    public String getCurrencyKindCode() {
+        return currencyKind.getCurrencyKindCode();
     }
 }
