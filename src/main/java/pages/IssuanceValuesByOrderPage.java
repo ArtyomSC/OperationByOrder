@@ -2,14 +2,14 @@ package pages;
 
 import enums.Category;
 import enums.Message;
-import enums.OperationByOrderRequiredField;
+
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import to.OperationDataTO;
 
 import static enums.Category.CASH;
 import static enums.Message.*;
-import static enums.OperationByOrderRequiredField.*;
+
 
 public class IssuanceValuesByOrderPage extends BasePage {
     private By currencyKindLabel = By.id("main-content-form:kind_label");
