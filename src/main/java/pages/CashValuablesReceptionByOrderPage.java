@@ -2,14 +2,12 @@ package pages;
 
 import enums.Category;
 import enums.Message;
-import enums.OperationByOrderRequiredField;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import to.OperationDataTO;
 
 import static enums.Category.CASH;
 import static enums.Message.*;
-import static enums.OperationByOrderRequiredField.*;
 
 public class CashValuablesReceptionByOrderPage extends BasePage {
     private By currencyKindLabel = By.id("main-content-form:kind_label");
@@ -19,7 +17,9 @@ public class CashValuablesReceptionByOrderPage extends BasePage {
     private By categoryLabel = By.id("main-content-form:category_label");
     private By amountReceipt = By.id("main-content-form:amount-receipt_input");
     private By amountReceiptCurrency = By.id("main-content-form:issue-amount-currency");
-    private By amountByDocumentErrorMessage = By.className("ui-messages-error-summary");
+    private By amountByDocumentRequiredFieldErrorMessage = By.id("main-content-form:amount-messages");
+    private By amountReceiptRequiredFieldErrorMessage = By.id("main-content-form:issue-amount-messages");
+    private By kindRequiredFieldErrorMessage = By.id("main-content-form:kindMessages");
     private By amountReceiptErrorMessage = By.className("ui-growl-title");
 
     public CashValuablesReceptionByOrderPage() {
@@ -56,12 +56,12 @@ public class CashValuablesReceptionByOrderPage extends BasePage {
         Assertions.assertEquals(category.getCategory(), getCategory());
     }
 
-    public String getAmountByDocumentErrorMessage() {
-        return driver.findElement(amountByDocumentErrorMessage).getText();
+    public String getAmountByDocumentRequiredFieldErrorMessage() {
+        return driver.findElement(amountByDocumentRequiredFieldErrorMessage).getText();
     }
 
     public void checkAmountByDocumentErrorMessage(Message message) {
-        Assertions.assertEquals(message.getMessage(), getAmountByDocumentErrorMessage());
+        Assertions.assertEquals(message.getMessage(), getAmountByDocumentRequiredFieldErrorMessage());
     }
 
     public String getAmountReceiptErrorMessage() {
@@ -72,28 +72,34 @@ public class CashValuablesReceptionByOrderPage extends BasePage {
         Assertions.assertEquals(message.getMessage(), getAmountReceiptErrorMessage());
     }
 
-    public String getKindRequiredFieldMessage(OperationByOrderRequiredField kind) {
-        return driver.findElement(By.xpath(String.format("//label[contains(text(),'%s')]/following-sibling::div//span[@class='ui-message-error-detail']",
-                kind.getRequiredField()))).getText();
+    public String getKindRequiredFieldMessage() {
+        return driver.findElement(kindRequiredFieldErrorMessage).getText();
     }
 
-    public void checkKindRequiredFieldMessage(Message message, OperationByOrderRequiredField kind) {
-        Assertions.assertEquals(message.getMessage(), getKindRequiredFieldMessage(kind));
+    public void checkKindRequiredFieldMessage(Message message) {
+        Assertions.assertEquals(message.getMessage(), getKindRequiredFieldMessage());
     }
 
-    public String getRequiredFieldMessageByAmountKind(OperationByOrderRequiredField amountKind) {
-        return driver.findElement(By.xpath(String.format("//label[contains(text(),'%s')]/following-sibling::div//span[@class='ui-messages-error-summary']",
-                amountKind.getRequiredField()))).getText();
+    public String getAmountReceiptRequiredFieldMessage() {
+        return driver.findElement(amountReceiptRequiredFieldErrorMessage).getText();
     }
 
-    public void checkRequiredFieldMessageByAmountKind(Message message, OperationByOrderRequiredField amountKind) {
-        Assertions.assertEquals(message.getMessage(), getRequiredFieldMessageByAmountKind(amountKind));
+    public void checkAmountReceiptRequiredFieldMessage(Message message) {
+        Assertions.assertEquals(message.getMessage(), getAmountReceiptRequiredFieldMessage());
+    }
+
+    public String getAmountByDocumentRequiredFieldMessage() {
+        return driver.findElement(amountByDocumentRequiredFieldErrorMessage).getText();
+    }
+
+    public void checkAmountByDocumentRequiredFieldMessage(Message message) {
+        Assertions.assertEquals(message.getMessage(), getAmountByDocumentRequiredFieldMessage());
     }
 
     public void checkRequiredFieldMessage(Message message) {
-        checkKindRequiredFieldMessage(message, KIND);
-        checkRequiredFieldMessageByAmountKind(message, AMOUNT_BY_DOCUMENT);
-        checkRequiredFieldMessageByAmountKind(message, AMOUNT_RECEIPT);
+        checkKindRequiredFieldMessage(message);
+        checkAmountByDocumentRequiredFieldMessage(message);
+        checkAmountReceiptRequiredFieldMessage(message);
     }
 
     public int getAmountReceipt() {
