@@ -2,14 +2,14 @@ package pages;
 
 import enums.Category;
 import enums.Message;
-import enums.ReceptionByOrderRequiredField;
+import enums.OperationByOrderRequiredField;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import to.OperationDataTO;
 
 import static enums.Category.CASH;
 import static enums.Message.*;
-import static enums.ReceptionByOrderRequiredField.*;
+import static enums.OperationByOrderRequiredField.*;
 
 public class CashValuablesReceptionByOrderPage extends BasePage {
     private By currencyKindLabel = By.id("main-content-form:kind_label");
@@ -72,21 +72,21 @@ public class CashValuablesReceptionByOrderPage extends BasePage {
         Assertions.assertEquals(message.getMessage(), getAmountReceiptErrorMessage());
     }
 
-    public String getKindRequiredFieldMessage(ReceptionByOrderRequiredField kind) {
+    public String getKindRequiredFieldMessage(OperationByOrderRequiredField kind) {
         return driver.findElement(By.xpath(String.format("//label[contains(text(),'%s')]/following-sibling::div//span[@class='ui-message-error-detail']",
                 kind.getRequiredField()))).getText();
     }
 
-    public void checkKindRequiredFieldMessage(Message message, ReceptionByOrderRequiredField kind) {
+    public void checkKindRequiredFieldMessage(Message message, OperationByOrderRequiredField kind) {
         Assertions.assertEquals(message.getMessage(), getKindRequiredFieldMessage(kind));
     }
 
-    public String getRequiredFieldMessageByAmountKind(ReceptionByOrderRequiredField amountKind) {
+    public String getRequiredFieldMessageByAmountKind(OperationByOrderRequiredField amountKind) {
         return driver.findElement(By.xpath(String.format("//label[contains(text(),'%s')]/following-sibling::div//span[@class='ui-messages-error-summary']",
                 amountKind.getRequiredField()))).getText();
     }
 
-    public void checkRequiredFieldMessageByAmountKind(Message message, ReceptionByOrderRequiredField amountKind) {
+    public void checkRequiredFieldMessageByAmountKind(Message message, OperationByOrderRequiredField amountKind) {
         Assertions.assertEquals(message.getMessage(), getRequiredFieldMessageByAmountKind(amountKind));
     }
 

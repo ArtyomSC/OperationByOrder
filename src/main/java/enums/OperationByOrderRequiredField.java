@@ -1,6 +1,6 @@
 package enums;
 
-public enum ReceptionByOrderRequiredField {
+public enum OperationByOrderRequiredField {
     CATEGORY("Категория"),
     KIND("Вид"),
     AMOUNT_BY_DOCUMENT("Сумма по документу"),
@@ -8,7 +8,7 @@ public enum ReceptionByOrderRequiredField {
     AMOUNT_ISSUE("Сумма к выдаче");
     private String requiredField;
 
-    ReceptionByOrderRequiredField(String requiredField){
+    OperationByOrderRequiredField(String requiredField){
         this.requiredField = requiredField;
     }
 
