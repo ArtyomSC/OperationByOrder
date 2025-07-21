@@ -15,8 +15,7 @@ public class IssuanceValuesByOrderProcessTest extends BaseTest {
     public void testIssuanceValuesByOrderProcess(OperationDataTO operationDataTO) {
         homePage.openBusinessProcess(ISSUANCE_VALUES_BY_ORDER);
         issuanceValuesByOrderPage.runIssuanceValuesByOrderProcess(operationDataTO);
-        valuesByOrderPaymentPage
-                .addPaymentData(operationDataTO,ISSUANCE_VALUES_BY_ORDER)
-                .checkMessage(OPERATION_COMPLETE);
+        valuesByOrderPaymentPage.clickProceedButton();
+        homePage.checkMessage(OPERATION_COMPLETE);
     }
 }

@@ -15,8 +15,9 @@ public class CashValuablesReceptionByOrderProcessTest extends BaseTest {
     public void testCashValuablesReceptionByOrderProcess(OperationDataTO operationDataTO) {
         homePage.openBusinessProcess(CASH_VALUABLES_RECEPTION_BY_ORDER);
         cashValuablesReceptionByOrderPage.runCashValuablesReceptionByOrderProcess(operationDataTO);
+        valuesByOrderPaymentPage.clickProceedButton();
         valuesByOrderPaymentPage
-                .addPaymentData(operationDataTO, CASH_VALUABLES_RECEPTION_BY_ORDER)
+                .addPaymentData(operationDataTO)
                 .checkMessage(OPERATION_COMPLETE);
     }
 }
