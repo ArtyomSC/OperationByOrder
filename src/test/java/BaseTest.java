@@ -15,6 +15,7 @@ public class BaseTest {
     public void login() {
         loginPage = new LoginPage();
         homePage = loginPage.loginIntoHomePage(BNBSKASS8);
+        homePage.clickWelcomeButton();
     }
 
     @AfterMethod

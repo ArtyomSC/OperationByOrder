@@ -2,25 +2,21 @@ package pages;
 
 import enums.Category;
 import enums.Message;
+import enums.OperationByOrderRequiredField;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import to.OperationDataTO;
 
 import static enums.Category.CASH;
 import static enums.Message.*;
+import static enums.OperationByOrderRequiredField.*;
 
 public class CashValuablesReceptionByOrderPage extends BasePage {
     private By currencyKindLabel = By.id("main-content-form:kind_label");
     private By amountByDocument = By.id("main-content-form:amount_input");
-    private By receivedSumInput = By.id("main-content-form:input-table:0:received_input");
-    private By proceedButton = By.name("main-content-form:confirm");
-    private By categoryLabel = By.id("main-content-form:category_label");
+     private By categoryLabel = By.id("main-content-form:category_label");
     private By amountReceipt = By.id("main-content-form:amount-receipt_input");
     private By amountReceiptCurrency = By.id("main-content-form:issue-amount-currency");
-    private By amountByDocumentRequiredFieldErrorMessage = By.id("main-content-form:amount-messages");
-    private By amountReceiptRequiredFieldErrorMessage = By.id("main-content-form:issue-amount-messages");
-    private By kindRequiredFieldErrorMessage = By.id("main-content-form:kindMessages");
-    private By amountReceiptErrorMessage = By.className("ui-growl-title");
 
     public CashValuablesReceptionByOrderPage() {
         super();
@@ -32,19 +28,10 @@ public class CashValuablesReceptionByOrderPage extends BasePage {
         ajaxWait();
     }
 
-    public void setAmountByDocument(int amount) {
+    public void setAmountByDocument(double amount) {
         driver.findElement(amountByDocument).click();
         driver.findElement(amountByDocument).sendKeys(String.valueOf(amount));
         changeFocus();
-        ajaxWait();
-    }
-
-    public void setReceivedAmount(int amount) {
-        driver.findElement(receivedSumInput).sendKeys(String.valueOf(amount));
-    }
-
-    public void clickProceedButton() {
-        driver.findElement(proceedButton).click();
         ajaxWait();
     }
 
@@ -56,61 +43,21 @@ public class CashValuablesReceptionByOrderPage extends BasePage {
         Assertions.assertEquals(category.getCategory(), getCategory());
     }
 
-    public String getAmountByDocumentRequiredFieldErrorMessage() {
-        return driver.findElement(amountByDocumentRequiredFieldErrorMessage).getText();
+
+    public void checkRequiredFieldMessage(Message message, OperationByOrderRequiredField field) {
+        Assertions.assertEquals(message.getMessage(),driver.findElement(By.xpath(String.format("//label[contains(text(),'%s')]/following-sibling::div[last()]/div[last()]",
+                field.getRequiredField()))).getText());
     }
 
-    public void checkAmountByDocumentErrorMessage(Message message) {
-        Assertions.assertEquals(message.getMessage(), getAmountByDocumentRequiredFieldErrorMessage());
-    }
-
-    public String getAmountReceiptErrorMessage() {
-        return driver.findElement(amountReceiptErrorMessage).getText();
-    }
-
-    public void checkAmountReceiptErrorMessage(Message message) {
-        Assertions.assertEquals(message.getMessage(), getAmountReceiptErrorMessage());
-    }
-
-    public String getKindRequiredFieldMessage() {
-        return driver.findElement(kindRequiredFieldErrorMessage).getText();
-    }
-
-    public void checkKindRequiredFieldMessage(Message message) {
-        Assertions.assertEquals(message.getMessage(), getKindRequiredFieldMessage());
-    }
-
-    public String getAmountReceiptRequiredFieldMessage() {
-        return driver.findElement(amountReceiptRequiredFieldErrorMessage).getText();
-    }
-
-    public void checkAmountReceiptRequiredFieldMessage(Message message) {
-        Assertions.assertEquals(message.getMessage(), getAmountReceiptRequiredFieldMessage());
-    }
-
-    public String getAmountByDocumentRequiredFieldMessage() {
-        return driver.findElement(amountByDocumentRequiredFieldErrorMessage).getText();
-    }
-
-    public void checkAmountByDocumentRequiredFieldMessage(Message message) {
-        Assertions.assertEquals(message.getMessage(), getAmountByDocumentRequiredFieldMessage());
-    }
-
-    public void checkRequiredFieldMessage(Message message) {
-        checkKindRequiredFieldMessage(message);
-        checkAmountByDocumentRequiredFieldMessage(message);
-        checkAmountReceiptRequiredFieldMessage(message);
-    }
-
-    public int getAmountReceipt() {
-        return (int) Double.parseDouble(driver.findElement(amountReceipt).getAttribute("value").replace(',', '.'));
+    public double getAmountReceipt() {
+        return Double.parseDouble(driver.findElement(amountReceipt).getAttribute("value").replace(',', '.'));
     }
 
     public String getAmountCurrencyKind() {
         return driver.findElement(amountReceiptCurrency).getText();
     }
 
-    public void checkAmountReceipt(int amount) {
+    public void checkAmountReceipt(double amount) {
         Assertions.assertEquals(amount, getAmountReceipt());
     }
 
@@ -118,21 +65,23 @@ public class CashValuablesReceptionByOrderPage extends BasePage {
         Assertions.assertEquals(currencyKind, getAmountCurrencyKind());
     }
 
-    public HomePage runCashValuablesReceptionByOrderProcess(OperationDataTO operationDataTO) {
+    public void checkAmountByDocumentReceiptInputIsDisabled() {
+        Assertions.assertFalse(driver.findElement(amountReceipt).isEnabled());
+    }
+
+    public void runCashValuablesReceptionByOrderProcess(OperationDataTO operationDataTO) {
         checkCategory(CASH);
         clickProceedButton();
-        checkRequiredFieldMessage(REQUIRED_FIELD_ERROR);
-        setCurrencyKind(operationDataTO.getCurrencyKindName());
+        checkRequiredFieldMessage(REQUIRED_FIELD_ERROR,KIND);
+        checkRequiredFieldMessage(REQUIRED_FIELD_ERROR,AMOUNT_RECEIPT);
+        checkRequiredFieldMessage(REQUIRED_FIELD_ERROR,AMOUNT_BY_DOCUMENT);
+        setCurrencyKind(operationDataTO.getCurrencyKind().getCurrencyKindName());
         clickProceedButton();
-        checkAmountByDocumentErrorMessage(NULL_AMOUNT_ERROR);
+        checkRequiredFieldMessage(NULL_AMOUNT_ERROR,AMOUNT_BY_DOCUMENT);
         setAmountByDocument(operationDataTO.getAmount());
         checkAmountReceipt(operationDataTO.getAmount());
-        checkAmountCurrencyKind(operationDataTO.getCurrencyKindCode());
+        checkAmountByDocumentReceiptInputIsDisabled();
+        checkAmountCurrencyKind(operationDataTO.getCurrencyKind().getCurrencyKindCode());
         clickProceedButton();
-        clickProceedButton();
-        checkAmountReceiptErrorMessage(RECEIVED_AMOUNT_ERROR);
-        setReceivedAmount(operationDataTO.getAmount());
-        clickProceedButton();
-        return new HomePage();
     }
 }

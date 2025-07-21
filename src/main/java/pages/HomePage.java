@@ -4,6 +4,7 @@ import enums.BusinessProcessName;
 import enums.Message;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
@@ -41,7 +42,6 @@ public class HomePage extends BasePage {
     }
 
     public void openBusinessProcess(BusinessProcessName businessProcessName) {
-        clickWelcomeButton();
         findBusinessProcess(businessProcessName.getBusinessProcessName());
         clickBusinessProcessName(businessProcessName.getBusinessProcessName());
     }

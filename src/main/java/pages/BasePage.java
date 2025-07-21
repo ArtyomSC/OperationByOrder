@@ -8,6 +8,7 @@ public class BasePage {
     protected WebDriver driver;
     private By ajaxStatus = By.xpath("//*[@id='ajaxStatusPanel_start' and @style='display: none;']");
     private By changeFocus = By.id("main-content-form:toolbar");
+    private By proceedButton = By.name("main-content-form:confirm");
 
     public BasePage() {
         this.driver = Driver.getDriver();
@@ -20,7 +21,13 @@ public class BasePage {
     public void ajaxWait() {
         driver.findElement(ajaxStatus);
     }
-    public void changeFocus(){
+
+    public void changeFocus() {
         driver.findElement(changeFocus).click();
+    }
+
+    public void clickProceedButton() {
+        driver.findElement(proceedButton).click();
+        ajaxWait();
     }
 }

@@ -11,14 +11,12 @@ public class OperationDataTO {
         this.currencyKind = currencyKind;
     }
 
-    public int getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public String getCurrencyKindName() {
-        return currencyKind.getCurrencyKindName();
+    public CurrencyKind getCurrencyKind() {
+        return currencyKind;
     }
-    public String getCurrencyKindCode() {
-        return currencyKind.getCurrencyKindCode();
-    }
+
 }
