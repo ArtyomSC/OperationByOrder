@@ -14,7 +14,7 @@ import static enums.OperationByOrderRequiredField.*;
 public class CashValuablesReceptionByOrderPage extends BasePage {
     private By currencyKindLabel = By.id("main-content-form:kind_label");
     private By amountByDocument = By.id("main-content-form:amount_input");
-     private By categoryLabel = By.id("main-content-form:category_label");
+    private By categoryLabel = By.id("main-content-form:category_label");
     private By amountReceipt = By.id("main-content-form:amount-receipt_input");
     private By amountReceiptCurrency = By.id("main-content-form:issue-amount-currency");
 
@@ -45,7 +45,7 @@ public class CashValuablesReceptionByOrderPage extends BasePage {
 
 
     public void checkRequiredFieldMessage(Message message, OperationByOrderRequiredField field) {
-        Assertions.assertEquals(message.getMessage(),driver.findElement(By.xpath(String.format("//label[contains(text(),'%s')]/following-sibling::div[last()]/div[last()]",
+        Assertions.assertEquals(message.getMessage(), driver.findElement(By.xpath(String.format("//label[contains(text(),'%s')]/following-sibling::div[last()]/div[last()]",
                 field.getRequiredField()))).getText());
     }
 
@@ -72,12 +72,12 @@ public class CashValuablesReceptionByOrderPage extends BasePage {
     public void runCashValuablesReceptionByOrderProcess(OperationDataTO operationDataTO) {
         checkCategory(CASH);
         clickProceedButton();
-        checkRequiredFieldMessage(REQUIRED_FIELD_ERROR,KIND);
-        checkRequiredFieldMessage(REQUIRED_FIELD_ERROR,AMOUNT_RECEIPT);
-        checkRequiredFieldMessage(REQUIRED_FIELD_ERROR,AMOUNT_BY_DOCUMENT);
+        checkRequiredFieldMessage(REQUIRED_FIELD_ERROR, KIND);
+        checkRequiredFieldMessage(REQUIRED_FIELD_ERROR, AMOUNT_RECEIPT);
+        checkRequiredFieldMessage(REQUIRED_FIELD_ERROR, AMOUNT_BY_DOCUMENT);
         setCurrencyKind(operationDataTO.getCurrencyKind().getCurrencyKindName());
         clickProceedButton();
-        checkRequiredFieldMessage(NULL_AMOUNT_ERROR,AMOUNT_BY_DOCUMENT);
+        checkRequiredFieldMessage(NULL_AMOUNT_ERROR, AMOUNT_BY_DOCUMENT);
         setAmountByDocument(operationDataTO.getAmount());
         checkAmountReceipt(operationDataTO.getAmount());
         checkAmountByDocumentReceiptInputIsDisabled();

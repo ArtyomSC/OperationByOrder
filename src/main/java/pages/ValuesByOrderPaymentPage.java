@@ -23,10 +23,9 @@ public class ValuesByOrderPaymentPage extends BasePage {
         driver.findElement(receivedSumInput).sendKeys(String.valueOf(amount));
     }
 
-    public HomePage addPaymentData(OperationDataTO operationDataTO) {
+    public void addPaymentData(OperationDataTO operationDataTO) {
         checkAmountReceiptErrorMessage(RECEIVED_AMOUNT_ERROR);
         setReceivedAmount(operationDataTO.getAmount());
         clickProceedButton();
-        return new HomePage();
     }
 }
