@@ -4,9 +4,11 @@ import pages.CashOperRegisterPage;
 import pages.CashValuablesReceptionByOrderPage;
 import pages.ValuesByOrderPaymentPage;
 import pages.WorkplaceBalanceDialogPage;
+import to.CashOperRegisterDataTO;
 import to.OperationDataTO;
+import to.WorkplaceBalanceDataTO;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import static enums.BusinessProcessName.CASH_OPER_REGISTER;
 import static enums.BusinessProcessName.CASH_VALUABLES_RECEPTION_BY_ORDER;
@@ -17,11 +19,11 @@ public class CashValuablesReceptionByOrderProcessTest extends BaseTest {
     private ValuesByOrderPaymentPage valuesByOrderPaymentPage = new ValuesByOrderPaymentPage();
     private CashOperRegisterPage cashOperRegisterPage = new CashOperRegisterPage();
     private WorkplaceBalanceDialogPage workplaceBalanceDialogPage = new WorkplaceBalanceDialogPage();
-    private ArrayList<Double> restList = new ArrayList<>();
+    private List<WorkplaceBalanceDataTO> restListDefault;
 
     @Test(dataProvider = "cashValuablesReceptionByOrderProcessData", dataProviderClass = OperationByOrderProcessData.class)
-    public void testCashValuablesReceptionByOrderProcess(OperationDataTO operationDataTO) {
-        restList.add(workplaceBalanceDialogPage.getWorkplaceRest(operationDataTO));
+    public void testCashValuablesReceptionByOrderProcess(OperationDataTO operationDataTO, CashOperRegisterDataTO cashOperRegisterDataTO) {
+        restListDefault = workplaceBalanceDialogPage.getWorkplaceRestList();
         homePage.openBusinessProcess(CASH_VALUABLES_RECEPTION_BY_ORDER);
         cashValuablesReceptionByOrderPage.runCashValuablesReceptionByOrderProcess(operationDataTO);
         valuesByOrderPaymentPage.clickProceedButton();
@@ -29,8 +31,7 @@ public class CashValuablesReceptionByOrderProcessTest extends BaseTest {
         homePage.checkMessage(OPERATION_COMPLETE);
         homePage.clearSearch();
         homePage.openBusinessProcess(CASH_OPER_REGISTER);
-        cashOperRegisterPage.checkOperation(operationDataTO, CASH_VALUABLES_RECEPTION_BY_ORDER);
-        restList.add(workplaceBalanceDialogPage.getWorkplaceRest(operationDataTO));
-        workplaceBalanceDialogPage.checkInOperationRest(operationDataTO, restList);
+        cashOperRegisterPage.checkOperation(cashOperRegisterDataTO);
+        workplaceBalanceDialogPage.checkOperationRest(restListDefault,operationDataTO);
     }
 }

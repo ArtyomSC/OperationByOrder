@@ -2,23 +2,23 @@ package pages;
 
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.WebElement;
 import to.OperationDataTO;
+import to.WorkplaceBalanceDataTO;
 
-import java.time.Duration;
 import java.util.ArrayList;
+import java.util.List;
 
+import static enums.FinancialType.INCOME;
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
 
 public class WorkplaceBalanceDialogPage extends BasePage {
     private By workplaceRest = By.id("header-form:openWorkplaceBalanceDialogButton");
-    private By workplaceRestClose = By.id("j_idt232");
+    private By workplaceRestClose = By.xpath("//div[@class='footer']//span[text()='Отменить']");
     private By iframe = By.xpath("//*[@id='header-form:openWorkplaceBalanceDialogButton_dlg']//iframe");
-    private WebDriverWait wait;
 
     public void openWorkplaceRest() {
         driver.findElement(workplaceRest).click();
-        wait = new WebDriverWait(driver, Duration.ofSeconds(15));
         driver.switchTo().frame(wait.until(visibilityOfElementLocated(iframe)));
     }
 
@@ -27,19 +27,34 @@ public class WorkplaceBalanceDialogPage extends BasePage {
         driver.switchTo().defaultContent();
     }
 
-    public double getWorkplaceRest(OperationDataTO operationDataTO) {
-        openWorkplaceRest();
-        double rest = Double.parseDouble(driver.findElement(By.xpath
-                (String.format("//*[@id='valuesBalanceForm:tab-view:cash-category-kinds-by-quality']//span[contains(text(),'%s')]//following::td[2]/span",
-                        operationDataTO.getCurrencyKind().getCurrencyKindName()))).getText().replace(" ", "").replace(",", "."));
-        closeWorkplaceRest();
-        return rest;
+    public List<WebElement> getWorkplaceRestWebElementList() {
+        return driver.findElements(By.xpath("//*[@id='valuesBalanceForm:tab-view:cash-category-kinds-by-quality_data']/tr"));
     }
 
-    public void checkInOperationRest(OperationDataTO operationDataTO, ArrayList<Double> arrayList) {
-        Assertions.assertEquals(arrayList.getFirst() + operationDataTO.getAmount(), arrayList.getLast());
+    public List<WorkplaceBalanceDataTO> getWorkplaceRestList() {
+        openWorkplaceRest();
+        List<WorkplaceBalanceDataTO> wpList = new ArrayList<>();
+        for (WebElement we : getWorkplaceRestWebElementList()) {
+            String rest = we.findElements(By.tagName("span")).get(2).getText().replace(" ", "").replace(",", ".");
+            String kind = we.findElements(By.tagName("span")).get(0).getText();
+            wpList.add(new WorkplaceBalanceDataTO(Double.parseDouble(rest), kind));
+        }
+        closeWorkplaceRest();
+        return wpList;
     }
-    public void checkOutOperationRest(OperationDataTO operationDataTO, ArrayList<Double> arrayList) {
-        Assertions.assertEquals(arrayList.getFirst() - operationDataTO.getAmount(), arrayList.getLast());
+
+    public void checkOperationRest(List<WorkplaceBalanceDataTO> wpList, OperationDataTO operationDataTO) {
+        for (WorkplaceBalanceDataTO to : wpList) {
+            if (to.getCurrencyKindName().equals(operationDataTO.getCurrencyKind().getCurrencyKindName())) {
+                if (operationDataTO.getFinancialType().getFinancialTypeName().equals(INCOME.getFinancialTypeName())) {
+                    double add = to.getRest() + operationDataTO.getAmount();
+                    to.setRest(add);
+                } else {
+                    double subtract = to.getRest() - operationDataTO.getAmount();
+                    to.setRest(subtract);
+                }
+            }
+        }
+        Assertions.assertEquals(wpList, getWorkplaceRestList());
     }
 }

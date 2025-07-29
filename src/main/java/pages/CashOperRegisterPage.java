@@ -1,15 +1,14 @@
 package pages;
 
-import enums.BusinessProcessName;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
-import to.OperationDataTO;
+import org.openqa.selenium.WebElement;
+import to.CashOperRegisterDataTO;
 
 public class CashOperRegisterPage extends BasePage {
     private By searchButton = By.id("main-content-form:search");
-    private By sum = By.id("main-content-form:htable:0:htable-sum");
-    private By kindName = By.id("main-content-form:htable:0:htable-kind");
-    private By businessProcessName = By.id("main-content-form:htable:0:htable-operation");
+    private By operation = By.xpath("//*[@id='main-content-form:htable_data']/tr[1]");
+    private By row = By.xpath("//td");
 
     public CashOperRegisterPage() {
         super();
@@ -19,22 +18,20 @@ public class CashOperRegisterPage extends BasePage {
         driver.findElement(searchButton).click();
     }
 
-    public void checkOperation(OperationDataTO operationDataTO, BusinessProcessName businessProcessName) {
+    public void checkOperation(CashOperRegisterDataTO cashOperRegisterDataTO) {
         clickSearchButton();
-        Assertions.assertEquals(operationDataTO.getAmount(), getAmount());
-        Assertions.assertEquals(operationDataTO.getCurrencyKind().getCurrencyKindName(), getCurrencyKindName());
-        Assertions.assertEquals(businessProcessName.getBusinessProcessName(), getBusinessProcessName());
+        Assertions.assertEquals(cashOperRegisterDataTO, getOperationData());
     }
 
-    private String getCurrencyKindName() {
-        return driver.findElement(kindName).getText();
+    private WebElement getOperation() {
+        return driver.findElement(operation);
     }
 
-    private String getBusinessProcessName() {
-        return driver.findElement(businessProcessName).getText();
-    }
-
-    private Double getAmount() {
-        return Double.parseDouble(driver.findElement(sum).getText().replace(",", "."));
+    private CashOperRegisterDataTO getOperationData() {
+        return new CashOperRegisterDataTO(
+                Double.parseDouble(getOperation().findElements(row).get(9).getText().replace(",", ".")),
+                getOperation().findElements(row).get(8).getText(),
+                getOperation().findElements(row).get(3).getText(),
+                getOperation().findElements(row).get(7).getText());
     }
 }
