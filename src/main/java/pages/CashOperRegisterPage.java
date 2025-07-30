@@ -1,5 +1,6 @@
 package pages;
 
+import factory.CashOperRegisterDataFactory;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -28,10 +29,6 @@ public class CashOperRegisterPage extends BasePage {
     }
 
     private CashOperRegisterDataTO getOperationData() {
-        return new CashOperRegisterDataTO(
-                Double.parseDouble(getOperation().findElements(row).get(9).getText().replace(",", ".")),
-                getOperation().findElements(row).get(8).getText(),
-                getOperation().findElements(row).get(3).getText(),
-                getOperation().findElements(row).get(7).getText());
+        return CashOperRegisterDataFactory.getCashOperRegisterData(getOperation(), row);
     }
 }

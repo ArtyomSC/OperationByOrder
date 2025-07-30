@@ -1,5 +1,6 @@
 package pages;
 
+import factory.WorkplaceBalanceDataFactory;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -35,9 +36,7 @@ public class WorkplaceBalanceDialogPage extends BasePage {
         openWorkplaceRest();
         List<WorkplaceBalanceDataTO> wpList = new ArrayList<>();
         for (WebElement we : getWorkplaceRestWebElementList()) {
-            String rest = we.findElements(By.tagName("span")).get(2).getText().replace(" ", "").replace(",", ".");
-            String kind = we.findElements(By.tagName("span")).get(0).getText();
-            wpList.add(new WorkplaceBalanceDataTO(Double.parseDouble(rest), kind));
+            wpList.add(WorkplaceBalanceDataFactory.createWorkplaceBalanceData(we));
         }
         closeWorkplaceRest();
         return wpList;
